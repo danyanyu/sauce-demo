@@ -37,7 +37,7 @@ public class UserSessionTest extends BaseTest{
                 .open()
                 .sign_up(usr.login, usr.password)
                 .log_in(usr.login, usr.password)
-                .selectCategory(HomePage.Category.monitor)
+                .selectCategory(HomePage.Category.laptop)
                 .PickFirstItem()
                 .AddToCart()
                 .GoToCart()
