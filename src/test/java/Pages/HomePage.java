@@ -1,6 +1,5 @@
 package Pages;
 
-import Dto.UserProfile;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 
@@ -12,6 +11,15 @@ public class HomePage {
     public String SignUpError;
     public String LoginError;
     public String DisplayModal;
+    public String FirstProd;
+
+    public enum Category{
+        phone("phone"),
+        monitor("monitor"),
+        laptop("laptop");
+        Category(String title){
+        }
+    }
 
 
     private static final By LOG_IN = By.id("login2");
@@ -23,6 +31,7 @@ public class HomePage {
     private static final By PASSWORD_INPUT_SIGNIN = By.id("sign-password");
     private static final By LOGIN_INPUT_LOGIN = By.id("loginusername");
     private static final By PASSWORD_INPUT_LOGIN = By.id("loginpassword");
+    //private static final By CLOSE_SIGNIN_MODAL = By.cssSelector(".btn.btn-secondary");
 
 
     public HomePage(WebDriver driver) {
@@ -42,24 +51,26 @@ public class HomePage {
         this.driver.findElement(LOGIN_INPUT_SIGNIN).sendKeys(login);
         this.driver.findElement(PASSWORD_INPUT_SIGNIN).sendKeys(pwd);
         this.driver.findElement(REGISTERBTN).click();
-        while(true)//ждем пока появится предупреждение вверху страницы
+        int i=0;
+        while(i<100)//ждем пока появится предупреждение вверху страницы
         {
+            i++;
             try
             {
                 Alert alert = driver.switchTo().alert();
                 this.SignUpError = alert.getText();
+                this.driver.switchTo().alert().dismiss();
+                this.driver.switchTo().window(currHandle);
                 break;
             }
             catch(NoAlertPresentException e)
             {
                 sleep(100);
-                continue;
             }
         }
-        this.driver.switchTo().alert().dismiss();
-        this.driver.switchTo().window(currHandle);
         Actions closeForm  = new Actions(driver);
         closeForm.sendKeys(Keys.ESCAPE).perform();
+        //this.driver.findElement(CLOSE_SIGNIN_MODAL).click();
         sleep(1000);//костыль, окно должно исчезнуть, но надо подождать, чтобы аттрибуты обновились
         this.DisplayModal = this.driver.findElement(By.id("signInModal")).getCssValue("display");
         return this;
@@ -85,10 +96,21 @@ public class HomePage {
                 return this;
             } catch (NoAlertPresentException e) {
                 sleep(100);
-                continue;
             }
         }
-
         return this;
+    }
+
+
+    public HomePage selectCategory(Category category) throws InterruptedException {
+        this.driver.findElement(By.cssSelector("[onclick=\"byCat('"+category+"')\"]")).click();
+        sleep(1000);
+        this.FirstProd = this.driver.findElement(By.className("card-title")).getText();
+        return this;
+    }
+
+    public ProdPage PickFirstItem() {
+        this.driver.findElement(By.className("card-title")).click();
+        return new ProdPage(this.driver);
     }
 }

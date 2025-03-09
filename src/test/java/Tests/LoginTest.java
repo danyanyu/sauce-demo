@@ -2,17 +2,15 @@ package Tests;
 
 import Dto.UserProfile;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.Assert;
 import org.testng.annotations.*;
 
-import java.time.Duration;
-
-import static java.lang.Thread.sleep;
 import static org.testng.Assert.*;
 
 public class LoginTest extends BaseTest{
 
+    UserProfile usr = new UserProfile("JesseyPinkman","Wat3rW8");
+
+    //Регистрация под существующей учетной записью
     @Test
     public void NegativeSignUpTest() throws InterruptedException{
         this.homePage
@@ -21,6 +19,7 @@ public class LoginTest extends BaseTest{
         assertEquals(homePage.SignUpError,"This user already exist.");
     }
 
+    //Неверный ввод пароля, ошибка при входе
     @Test
     public void NegativeLoginTest() throws InterruptedException{
         this.homePage
@@ -29,6 +28,7 @@ public class LoginTest extends BaseTest{
         assertEquals(homePage.LoginError,"Wrong password.");
     }
 
+    //Проверка того, что модальное окно закрылось после неудачной регистрации
     @Test
     public void ModalClosingTest() throws InterruptedException{
         this.homePage
@@ -37,6 +37,7 @@ public class LoginTest extends BaseTest{
         assertEquals(homePage.DisplayModal,"none");
     }
 
+    //Успешный вход в систему
     @Test
     public void PositiveLoginTest() throws InterruptedException{
         this.homePage

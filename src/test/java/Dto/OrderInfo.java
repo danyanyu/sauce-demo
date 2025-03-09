@@ -1,6 +1,5 @@
 package Dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
@@ -8,10 +7,24 @@ import lombok.Data;
 @Builder
 public class OrderInfo {
 
-    String Name;
-    String Country;
-    String City;
-    String CreditCard;
-    String Month;
-    String Year;
+    public String Name;
+    public String Country;
+    public String City;
+    public String CreditCard;
+    public String Month;
+    public String Year;
+
+    public OrderInfo(String Name,
+                     String Country,
+                     String City,
+                     String CreditCard,
+                     String Month,
+                     String Year){
+        this.Name=Name;
+        this.Country=Country;
+        this.City=City;
+        this.CreditCard=CreditCard;
+        this.Month=Month;
+        this.Year=Year;
+    }
 }

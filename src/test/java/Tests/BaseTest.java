@@ -1,6 +1,5 @@
 package Tests;
 
-import Dto.UserProfile;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -17,7 +16,7 @@ public class BaseTest {
     WebDriver driver;
     HomePage homePage;
     CartPage cartPage;
-    UserProfile usr = new UserProfile("JesseyPinkman","Wat3rW8");
+    ProdPage prodPage;
 
 
     @BeforeMethod
@@ -31,6 +30,7 @@ public class BaseTest {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
         homePage = new HomePage(driver);
         cartPage = new CartPage(driver);
+        prodPage = new ProdPage(driver);
     }
 
     @AfterMethod
